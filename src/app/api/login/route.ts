@@ -63,6 +63,8 @@ export async function POST(req: NextRequest) {
       }, { status: 500 })
     }
 
+    // console.log('userData', userData);
+    
     const { customer } = userData.client || {};
 
     // Step 4: Set JWT token in cookie
@@ -73,6 +75,7 @@ export async function POST(req: NextRequest) {
         phone,
         customer: customer || false,
       },
+      userData: userData.client,
       token,
     });
 

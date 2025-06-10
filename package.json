@@ -26,6 +26,7 @@
     "chart.js": "^4.4.9",
     "date-fns": "^4.1.0",
     "flatpickr": "^4.6.13",
+    "framer-motion": "^12.16.0",
     "jsonwebtoken": "^9.0.2",
     "next": "15.2.3",
     "next-scratchcard": "^0.0.4",
