@@ -8,11 +8,60 @@ import { ThemeToggleButton } from '../common/ThemeToggleButton';
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, loading, logout } = useAuth();
 
   const handleLogout = () => {
     logout('user');
   };
+
+  // Loading state UI
+  const LoadingHeader = () => (
+    <header className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 shadow-sm z-50">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <div className="flex-shrink-0 relative w-[120px] md:w-[150px] h-[40px]">
+            <Link href="/" className="block w-full h-full">
+              <Image
+                src="/images/logo/rpk.webp"
+                alt="RepayKarot"
+                fill
+                className="object-contain dark:hidden"
+                priority
+              />
+              <Image
+                src="/images/logo/rpk.webp"
+                alt="RepayKarot"
+                fill
+                className="object-contain hidden dark:block"
+                priority
+              />
+            </Link>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center space-x-6">
+            <ThemeToggleButton />
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+              <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+            </div>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center space-x-4">
+            <ThemeToggleButton />
+            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return <LoadingHeader />;
+  }
 
   // Early return if no user to prevent type errors
   if (!user) {
@@ -97,7 +146,7 @@ const Header = () => {
             <div className="relative group">
               <button className="flex items-center space-x-3 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white focus:outline-none">
                 <div className="w-8 h-8 rounded-full bg-indigo-600 flex items-center justify-center text-white">
-                  {typeof user.customer === 'string' ? user.customer[0] : ''}
+                  {typeof user.customer === 'string' ? user.customer[0] : user.phone[0]}
                 </div>
                 <span className="font-medium">{user.phone}</span>
                 <svg
@@ -165,7 +214,7 @@ const Header = () => {
               <div className="px-4 py-3">
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center text-white text-lg">
-                    {user.phone.charAt(0)}
+                    {user.phone[0]}
                   </div>
                   <div>
                     <div className="font-medium text-gray-800 dark:text-gray-200">{user.phone}</div>
